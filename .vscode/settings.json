@@ -3,7 +3,7 @@
     "xmlTools.enforcePrettySelfClosingTagOnFormat": true,
     "editor.minimap.enabled": false,
     "terminal.integrated.shell.windows": "C:/Program Files/PowerShell/7/pwsh.exe",
-    "terminal.integrated.fontWeight": "0",
+    "terminal.integrated.fontWeight": "1",
     "editor.fontFamily": "Comic Sans MS",
     "editor.fontSize": 16,
     "editor.fontWeight": "1",
@@ -57,6 +57,7 @@
         "typeinfo": "c",
         "windowsx.h": "c",
         "vulcan_platform.h": "c",
-        "renderer_frontend.h": "c"
+        "renderer_frontend.h": "c",
+        "system_error": "cpp"
     }
 }
