@@ -33,7 +33,7 @@ b8 platform_startup(platform_state *plat_state, const char *application_name, i3
     wc.hIcon = icon;
     wc.hCursor = LoadCursor(NULL, IDC_ARROW); //NULL;  Manage the cursor manually
     wc.hbrBackground = NULL;    //transparent
-    wc.lpszClassName = "FluxtalSX3VX_window_class";
+    wc.lpszClassName = "FluxtalSX3DV_window_class";
 
     if(!RegisterClassA(&wc))
     {
@@ -69,7 +69,7 @@ b8 platform_startup(platform_state *plat_state, const char *application_name, i3
     window_width += border_rect.right - border_rect.left;
     window_height += border_rect.bottom - border_rect.top;
 
-    HWND handle = CreateWindowExA(window_ex_style, "FluxtalSX3VX_window_class", application_name, window_style, window_x, window_y, window_width, window_height, 0, 0, state->h_instance, 0);
+    HWND handle = CreateWindowExA(window_ex_style, "FluxtalSX3DV_window_class", application_name, window_style, window_x, window_y, window_width, window_height, 0, 0, state->h_instance, 0);
     if(handle == 0)
     {
         MessageBoxA(NULL, "Window Creation FAILED!", "ERROR!!!", MB_ICONEXCLAMATION | MB_OK);
@@ -80,5 +80,11 @@ b8 platform_startup(platform_state *plat_state, const char *application_name, i3
     {
         state -> hwnd = handle;
     }
+
+    //Show window
+    b32 should_activate = 1;  //TODO: If window shouldn't accept input, this should be false.
+    i32 show_window_command_flags = should_activate ? SW_SHOW : SW_SHOWNOACTIVATE;
+    //If start maximized use "SW_SHOWMAXIMIZED : SW_MAXIMIZE" , if start minimized use "SW_MINIMIZE : SW_SHOWMINNOACTIVE"
+    ShowWindow(state -> hwnd, show_window_command_flags);
 }
 #endif
