@@ -86,5 +86,15 @@ b8 platform_startup(platform_state *plat_state, const char *application_name, i3
     i32 show_window_command_flags = should_activate ? SW_SHOW : SW_SHOWNOACTIVATE;
     //If start maximized use "SW_SHOWMAXIMIZED : SW_MAXIMIZE" , if start minimized use "SW_MINIMIZE : SW_SHOWMINNOACTIVE"
     ShowWindow(state -> hwnd, show_window_command_flags);
+
+
+
+    return TRUE;
 }
+
+void platform_shutdown(platform_state *plat_state)
+{
+    
+}
+
 #endif
