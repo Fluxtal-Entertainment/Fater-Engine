@@ -1,6 +1,11 @@
 #include "platform.h"
 
 #include <xcb/xcb.h>
+#include <X11/keysym.h>
+#include <X11/XKBlib.h> //sudo apt-get install libx11-dev OR sudo dnf install libX11-devel (if not installed earlier)
+#include <X11/xlib.h>
+#include <X11/Xlib-xcb.h> //sudo apt-get install libxkbcommon-x11-dev OR sudo dnf install libxkbcommon-x11-devel (if not installed earlier)
+#include <sys/time.h>
 
 typedef struct internal_state
 {
