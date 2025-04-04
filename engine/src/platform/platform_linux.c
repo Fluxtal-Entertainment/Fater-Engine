@@ -1,5 +1,7 @@
 #include "platform.h"
 
+#include <xcb/xcb.h>
+
 typedef struct internal_state
 {
     Display *display;
