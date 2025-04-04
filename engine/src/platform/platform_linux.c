@@ -7,7 +7,7 @@
 #include <xcb/xcb.h>
 #include <X11/keysym.h>
 #include <X11/XKBlib.h> //sudo apt-get install libx11-dev OR sudo dnf install libX11-devel (if not installed earlier)
-#include <X11/xlib.h>
+#include <X11/Xlib.h>
 #include <X11/Xlib-xcb.h> //sudo apt-get install libxkbcommon-x11-dev OR sudo dnf install libxkbcommon-x11-devel (if not installed earlier)
 #include <sys/time.h>
 
@@ -92,7 +92,7 @@ b8 platform_startup(platform_state* plat_state, const char* application_name, i3
     return TRUE;
 }
 
-void plarform_shutdown(platform_state* plat_state)
+void platform_shutdown(platform_state* plat_state)
 {
     //Cold-cast to the known type
     internal_state *state = (internal_state *)plat_state -> internal_state;
@@ -108,51 +108,110 @@ b8 platform_pump_messages(platform_state* plat_state)
     xcb_generic_event_t *event;
     xcb_client_message_event_t *cm;
     b8 quit_flagged = FALSE;
+    //Poll for events until null is returned
+    while(event != 0)
+    {
+        event = xcb_poll_for_event(state -> connection);
+        if(event == 0)
+        {
+            break;
+        }
+        //Input events
+        switch(event -> response_type & ~0x80)
+        {
+            case XCB_KEY_PRESS:
+            case XCB_KEY_RELEASE:
+            {
+                //Presses and releases of key
+            }break;
+            case XCB_BUTTON_PRESS:
+            case XCB_BUTTON_RELEASE:
+            {
+                //Presses and releases of mouse button
+            }
+            case XCB_MOTION_NOTIFY:
+                //Mouse movement
+            break;
+            case XCB_CONFIGURE_NOTIFY:
+            {
+                //Resizing
+            }
+            case XCB_CLIENT_MESSAGE:
+            {
+                cm = (xcb_client_message_event_t *)event;
+                //Window close
+                if(cm -> data.data32[0] == state -> wm_delete_win)
+                {
+                    quit_flagged = TRUE;
+                }
+            }break;
+            default:
+                //Something else
+                break;
+        }
+        free(event);
+    }
+    return !quit_flagged;
 }
 
-void* platform_allocate(u64 size, u8 aligned)
+void* platform_allocate(u64 size, b8 aligned)
 {
-
+    return malloc(size);
 }
 
-void platform_free(void* block, u8 aligned)
+void platform_free(void* block, b8 aligned)
 {
-
+    free(block);
 }
 
 void* platform_zero_memory(void* block, u64 size)
 {
-
+    return memset(block, 0, size);
 }
 
 void* platform_copy_memory(void* dest, const void* source, u64 size)
 {
-
+    return memcpy(dest, source, size);
 }
 
 void* platform_set_memory(void* dest, i32 value, u64 size)
 {
-
+    return memset(dest, value, size);
 }
 
 void platform_console_write(const char* message, u8 color)
 {
-
+    const char* color_strings[] = {"0;41", "1;31", "1;33", "1;32", "1;34", "1;30"}; //Fatal, Error, Warn, Info, Debug, Trace
+    printf("\033[%sm%s\033[0m", color_strings[color], message);
 }
 
 void platform_console_write_error(const char* message, u8 color)
 {
-
+    const char* color_strings[] = {"0;41", "1;31", "1;33", "1;32", "1;34", "1;30"}; //Fatal, Error, Warn, Info, Debug, Trace
+    printf("\033[%sm%s\033[0m", color_strings[color], message);
 }
 
 f64 platform_get_absolute_time()
 {
-
+    struct timespec now;
+    clock_gettime(CLOCK_MONOTONIC, &now);
+    return now.tv_sec + now.tv_nsec * 0.000000001;
 }
 
 void platform_sleep(u64 ms)
 {
-
+#if _POSIX_C_SOURCE >= 199309L
+    struct timespec ts;
+    ts.tv_sec = ms / 1000;
+    ts.tv_nsec = (ms % 1000) * 1000 * 1000;
+    nanosleep(&ts, 0);
+#else
+    if(ms >= 1000)
+    {
+        sleep(ms / 1000);
+    }
+    usleep((ms % 1000) * 1000);
+#endif
 }
 
 #endif
