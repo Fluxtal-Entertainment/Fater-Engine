@@ -3,7 +3,7 @@
         {
             "type": "shell",
             "label": "Build Engine",
-            "windows":{
+            "windows": {
                 "command": "${workspaceFolder}/engine/build.bat"
             },
             "linux": {
@@ -21,8 +21,8 @@
         {
             "type": "shell",
             "label": "Build Testbed",
-            "windows":{
-                 "command": "${workspaceFolder}/testbed/build.bat"
+            "windows": {
+                "command": "${workspaceFolder}/testbed/build.bat"
             },
             "linux": {
                 "command": "${workspaceFolder}/testbed/build.sh"
@@ -33,13 +33,13 @@
             "problemMatcher": [
                 "$gcc"
             ],
-            "group": "build",
+            "group": "build"
         },
         {
             "type": "shell",
             "label": "Build Everything",
-            "windows":{
-                 "command": "${workspaceFolder}/build-all.bat"
+            "windows": {
+                "command": "${workspaceFolder}/build-all.bat"
             },
             "linux": {
                 "command": "${workspaceFolder}build-all.sh"
@@ -50,11 +50,8 @@
             "problemMatcher": [
                 "$gcc"
             ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
+            "group": "build"
         }
-    ], 
+    ],
     "version": "2.0.0"
 }
