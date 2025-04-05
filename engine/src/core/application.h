@@ -1,6 +1,7 @@
 #pragma once
 #include "defines.h"
 
+struct game;
 //Application config
 typedef struct application_config
 {
@@ -14,7 +15,7 @@ typedef struct application_config
     i16 start_height;
     //Application name
     char* name;
-}application_config;
+} application_config;
 
-FAPI b8 application_create(application_config* config);
+FAPI b8 application_create(struct game* game_inst);
 FAPI b8 application_run();
