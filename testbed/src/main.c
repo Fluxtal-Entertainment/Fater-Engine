@@ -1,26 +1,17 @@
 #include <core/logger.h>
 #include <core/asserts.h>
-
-//TODO: Test
-#include <platform/platform.h>
+//NOTE: Test
+#include <core/application.h>
 
 int main(void){
-    FFATAL("A test message: %f", 3.14f);
-    FERROR("A test message: %f", 3.14f);
-    FWARN("A test message: %f", 3.14f);
-    FINFO("A test message: %f", 3.14f);
-    FDEBUG("A test message: %f", 3.14f);
-    FTRACE("A test message: %f", 3.14f);
-
-    platform_state state;
-    if(platform_startup(&state, "Fater Engine Testbed", 100, 100, 1280, 720))
-    {
-        while(TRUE)
-        {
-            platform_pump_messages(&state);
-        }
-    }
-    platform_shutdown(&state);
-
+    //Application config
+    application_config config;
+    config.start_pos_x = 100;
+    config.start_pos_y = 100;
+    config.start_width = 1280;
+    config.start_height = 720;
+    config.name = "Fater Engine";
+    application_create(&config);
+    application_run();
     return 0;
 }
