@@ -13,8 +13,8 @@
                 "KEXPORT"
             ],
             "compilerPath": "/usr/bin/clang",
-            "cStandard": "c17",
-            "cppStandard": "c++17",
+            "cStandard": "c23",
+            "cppStandard": "c++23",
             "intelliSenseMode": "clang-x64"
         },
         {
@@ -32,8 +32,8 @@
             ],
             "windowsSdkVersion": "10.0.18362.0",
             "compilerPath": "C:/msys64/ucrt64/bin/gcc.exe",
-            "cStandard": "c17",
-            "cppStandard": "c++17",
+            "cStandard": "c23",
+            "cppStandard": "c++23",
             "intelliSenseMode": "clang-x64"
         }
     ],
