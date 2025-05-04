@@ -6,9 +6,9 @@
 #include "core/logger.h"
 #include <xcb/xcb.h>
 #include <X11/keysym.h>
-#include <X11/XKBlib.h> //sudo apt-get install libx11-dev OR sudo dnf install libX11-devel (if not installed earlier)
+#include <X11/XKBlib.h> //NOTE:sudo apt-get install libx11-dev OR sudo dnf install libX11-devel (if not installed earlier)
 #include <X11/Xlib.h>
-#include <X11/Xlib-xcb.h> //sudo apt-get install libxkbcommon-x11-dev OR sudo dnf install libxkbcommon-x11-devel (if not installed earlier)
+#include <X11/Xlib-xcb.h> //NOTE:sudo apt-get install libxkbcommon-x11-dev OR sudo dnf install libxkbcommon-x11-devel (if not installed earlier)
 #include <sys/time.h>
 
 #if _POSIX_C_SOURCE >= 199309L

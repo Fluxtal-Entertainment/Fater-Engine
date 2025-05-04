@@ -4,9 +4,8 @@
     "editor.minimap.enabled": false,
     "terminal.integrated.shell.windows": "C:/Program Files/PowerShell/7/pwsh.exe",
     "terminal.integrated.fontWeight": "1",
-    "editor.fontFamily": "Comic Sans MS",
     "editor.fontSize": 16,
-    "editor.fontWeight": "1",
+    "editor.fontWeight": "normal",
     "workbench.editor.showTabs": "single",
     "workbench.colorCustomizations": {
         "editorCursor.foreground": "#00ff33",
