@@ -1,7 +1,7 @@
 #include "platform.h"
 
 //Linux platform layer
-#if KPLATFORM_LINUX
+#if FPLATFORM_LINUX
 
 #include "core/logger.h"
 #include <xcb/xcb.h>
@@ -44,7 +44,7 @@ b8 platform_startup(platform_state* plat_state, const char* application_name, i3
     state -> connection = XGetXCBConnection(state -> display);
     if(xcb_connection_has_error(state -> connection))
     {
-        KFATAL("FAILED to connect to X Server via XCB");
+        FFATAL("FAILED to connect to X Server via XCB");
         return FALSE;
     }
     //Get data from X Server
@@ -86,7 +86,7 @@ b8 platform_startup(platform_state* plat_state, const char* application_name, i3
     i32 stream_result = xcb_flush(state -> connection);
     if(stream_result <= 0)
     {
-        KFATAL("An ERROR occured when flushing the stream: %d", stream_result);
+        FFATAL("An ERROR occured when flushing the stream: %d", stream_result);
         return FALSE;
     }
     return TRUE;

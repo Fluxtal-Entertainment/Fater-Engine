@@ -1,7 +1,7 @@
 #include "platform.h"
 
 //Windows platform layer.
-#if KPLATFORM_WINDOWS
+#if FPLATFORM_WINDOWS
 
 #include "core/logger.h"
 #include <windows.h>
@@ -38,7 +38,7 @@ b8 platform_startup(platform_state *plat_state, const char *application_name, i3
     wc.hIcon = icon;
     wc.hCursor = LoadCursor(NULL, IDC_ARROW); //NULL;  Manage the cursor manually
     wc.hbrBackground = NULL;    //transparent
-    wc.lpszClassName = "FluxtalSX3DV_window_class";
+    wc.lpszClassName = "Fater_Engine_window_class";
 
     if(!RegisterClassA(&wc))
     {
@@ -74,11 +74,11 @@ b8 platform_startup(platform_state *plat_state, const char *application_name, i3
     window_width += border_rect.right - border_rect.left;
     window_height += border_rect.bottom - border_rect.top;
 
-    HWND handle = CreateWindowExA(window_ex_style, "FluxtalSX3DV_window_class", application_name, window_style, window_x, window_y, window_width, window_height, 0, 0, state->h_instance, 0);
+    HWND handle = CreateWindowExA(window_ex_style, "Fater_Engine_window_class", application_name, window_style, window_x, window_y, window_width, window_height, 0, 0, state->h_instance, 0);
     if(handle == 0)
     {
         MessageBoxA(NULL, "Window Creation FAILED!", "ERROR!!!", MB_ICONEXCLAMATION | MB_OK);
-        KFATAL("Window Creation FAILED!");
+        FFATAL("Window Creation FAILED!");
         return FALSE;
     }
     else
@@ -253,4 +253,4 @@ LRESULT CALLBACK win32_process_message(HWND hwnd, u32 msg, WPARAM w_param, LPARA
     return DefWindowProcA(hwnd, msg, w_param, l_param);
 }
 
-#endif //KPLARFORM_WINDOWS
+#endif //FPLARFORM_WINDOWS
