@@ -1,7 +1,7 @@
 #include "platform.h"
 
 //Windows platform layer.
-#if FPLATFORM_WINDOWS
+#if PLATFORM_WINDOWS
 
 #include "core/logger.h"
 #include <windows.h>

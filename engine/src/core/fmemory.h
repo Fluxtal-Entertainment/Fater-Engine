@@ -26,9 +26,9 @@ typedef enum memory_tag
 void initialize_memory();
 void shutdown_memory();
 
-FAPI void* fallocate(u64 size, memory_tag tag);
-FAPI void ffree(void* block, u64 size, memory_tag tag);
-FAPI void* fzero_memory(void* block, u64 size);
-FAPI void* fcopy_memory(void* dest, const void* source, u64 size);
-FAPI void* fset_memory(void* dest, i32 value, u64 size);
+FAPI void* fmem_allocate(u64 size, memory_tag mem_tag);
+FAPI void fmem_free(void* block, u64 size, memory_tag mem_tag);
+FAPI void* fmem_zero(void* block, u64 size);
+FAPI void* fmem_copy(void* dest, const void* source, u64 size);
+FAPI void* fmem_set(void* dest, i32 value, u64 size);
 FAPI char* get_memory_usage_string();
