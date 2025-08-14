@@ -1,7 +1,7 @@
 #include "game.h"
 #include <entry.h>
 //NOTE:To remove
-#include <platform/platform.h>
+#include <core/fmemory.h>
 
 //Define the function to create a game
 b8 create_game(game* out_game)
@@ -17,6 +17,6 @@ b8 create_game(game* out_game)
     out_game->initialize = game_initialize;
     out_game->on_resize = game_on_resize;
     //Create game state
-    out_game->state =  platform_allocate(sizeof(game_state), FALSE);
+    out_game->state = mem_allocate(sizeof(game_state), MEMORY_TAG_GAME);
     return TRUE;
 }

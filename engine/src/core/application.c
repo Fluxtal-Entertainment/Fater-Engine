@@ -2,6 +2,7 @@
 #include "game_types.h"
 #include "logger.h"
 #include "platform/platform.h"
+#include "fmemory.h"
 
 typedef struct application_state
 {
@@ -24,7 +25,7 @@ b8 application_create(game* game_inst)
         return FALSE;
     }
     app_state.game_inst = game_inst;
-    //Initialize subsystems
+    //Initialize logging subsystems
     initialize_logging();
     //NOTE: Only for tests. This'll be removed later.
     FATAL("A test message: %f", 3.14f);
@@ -52,6 +53,7 @@ b8 application_create(game* game_inst)
 
 b8 application_run()
 {
+    INFO(get_memory_usage_string());
     while(app_state.is_running)
     {
        if(!platform_pump_messages(&app_state.platform))

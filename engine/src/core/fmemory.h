@@ -19,6 +19,7 @@ typedef enum memory_tag
     MEMORY_TAG_GAME,
     MEMORY_TAG_TRANSFORM,
     MEMORY_TAG_ENTITY,
+    MEMORY_TAG_ENTITY_NODE,
     MEMORY_TAG_SCENE,
     MEMORY_TAG_MAX_TAGS
 } memory_tag;
@@ -26,9 +27,9 @@ typedef enum memory_tag
 void initialize_memory();
 void shutdown_memory();
 
-FAPI void* fmem_allocate(u64 size, memory_tag mem_tag);
-FAPI void fmem_free(void* block, u64 size, memory_tag mem_tag);
-FAPI void* fmem_zero(void* block, u64 size);
-FAPI void* fmem_copy(void* dest, const void* source, u64 size);
-FAPI void* fmem_set(void* dest, i32 value, u64 size);
+FAPI void* mem_allocate(u64 size, memory_tag mem_tag);
+FAPI void mem_free(void* block, u64 size, memory_tag mem_tag);
+FAPI void* mem_zero(void* block, u64 size);
+FAPI void* mem_copy(void* dest, const void* source, u64 size);
+FAPI void* mem_set(void* dest, i32 value, u64 size);
 FAPI char* get_memory_usage_string();
