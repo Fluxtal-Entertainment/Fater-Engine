@@ -78,7 +78,7 @@ b8 platform_startup(platform_state *plat_state, const char *application_name, i3
     if(handle == 0)
     {
         MessageBoxA(NULL, "Window Creation FAILED!", "ERROR!!!", MB_ICONEXCLAMATION | MB_OK);
-        FFATAL("Window Creation FAILED!");
+        FATAL("Window Creation FAILED!");
         return FALSE;
     }
     else

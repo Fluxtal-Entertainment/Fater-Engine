@@ -7,7 +7,7 @@
 #define LOG_TRACE_ENABLED 1
 
 //Disabling debug and trace for release build.
-#if FRELEASE == 1
+#if RELEASE == 1
 #define LOG_DEBUG_ENABLED 0
 #define LOG_TRACE_ENABLED 0
 #endif

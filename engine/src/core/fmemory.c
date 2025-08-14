@@ -1,4 +1,4 @@
-#include "fmemory.h"
+#include "core/fmemory.h"
 #include "core/logger.h"
 #include "platform/platform.h"
 #include <string.h> //NOTE: Will be replaced by custom string library in the future
@@ -55,7 +55,7 @@ void* mem_zero(void* block, u64 size)
 
 void* mem_copy(void* dest, const void* source, u64 size)
 {
-    return platform_copy_memory(dest, value, size);
+    return platform_copy_memory(dest, source, size);
 }
 
 void* mem_set(void* dest, i32 value, u64 size)
