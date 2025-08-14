@@ -9,6 +9,8 @@ extern b8 create_game(game* out_game);
 //Main entry point of the application
 int main(void){
     initialize_memory();
+    //Initialize logging subsystems
+    initialize_logging();
     //Request the game instance from the application
     game game_inst;
     if(!create_game(&game_inst))

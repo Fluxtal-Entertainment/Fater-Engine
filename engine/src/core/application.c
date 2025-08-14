@@ -25,8 +25,6 @@ b8 application_create(game* game_inst)
         return FALSE;
     }
     app_state.game_inst = game_inst;
-    //Initialize logging subsystems
-    initialize_logging();
     //NOTE: Only for tests. This'll be removed later.
     FATAL("A test message: %f", 3.14f);
     ERROR("A test message: %f", 3.14f);
