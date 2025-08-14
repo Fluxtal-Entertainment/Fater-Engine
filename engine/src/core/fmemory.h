@@ -1,8 +1,9 @@
 #pragma once
 #include "defines.h"
 
-typedef enum memory_tag{
-    //NOTE:Temporary
+typedef enum memory_tag
+{
+    //For temporary use. Should be assigned one of the below or have a new tag created
     MEMORY_TAG_UNKNOWN,
     MEMORY_TAG_ARRAY,
     MEMORY_TAG_DARRAY,
@@ -18,15 +19,16 @@ typedef enum memory_tag{
     MEMORY_TAG_GAME,
     MEMORY_TAG_TRANSFORM,
     MEMORY_TAG_ENTITY,
-    MEMORY_TAG_ENTITY_NODE,
     MEMORY_TAG_SCENE,
     MEMORY_TAG_MAX_TAGS
 } memory_tag;
 
 void initialize_memory();
 void shutdown_memory();
+
 FAPI void* fallocate(u64 size, memory_tag tag);
 FAPI void ffree(void* block, u64 size, memory_tag tag);
 FAPI void* fzero_memory(void* block, u64 size);
 FAPI void* fcopy_memory(void* dest, const void* source, u64 size);
 FAPI void* fset_memory(void* dest, i32 value, u64 size);
+FAPI char* get_memory_usage_string();

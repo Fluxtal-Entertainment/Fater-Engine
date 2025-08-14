@@ -15,11 +15,12 @@ typedef struct application_state
 } application_state;
 static b8 initialized = FALSE;
 static application_state app_state;
+
 b8 application_create(game* game_inst)
 {
     if(initialized)
     {
-        FERROR("[application_create] called more than once!!!")
+        FERROR("[application_create()] called more than once!!!")
         return FALSE;
     }
     app_state.game_inst = game_inst;
@@ -48,6 +49,7 @@ b8 application_create(game* game_inst)
     initialized = TRUE;
     return TRUE;
 }
+
 b8 application_run()
 {
     while(app_state.is_running)
