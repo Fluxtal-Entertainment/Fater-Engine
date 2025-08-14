@@ -1,33 +1,33 @@
 #pragma once
 
-//Unsigned int types.
+//Unsigned int variables
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned long long u64;
 
-//Signed int types.
+//Signed int variables
 typedef signed char i8;
 typedef signed short i16;
 typedef signed int i32;
 typedef signed long long i64;
 
-//Floating point types.
+//Floating point variables
 typedef float f32;
 typedef double f64;
 
-//Boolean types.
+//Boolean variables
 typedef int b32;
 typedef char b8;
 
-//Properly define static assertions.
+//Properly define static assertions
 #if defined(__clang__) || defined(__gcc__)
 #define STATIC_ASSERT _Static_assert
 #else
 #define STATIC_ASSERT static_assert
 #endif
 
-//Ensure all types are the correct size.
+//Ensure all types are the correct size
 STATIC_ASSERT(sizeof(u8) == 1, "Expected u8 to be 1 byte.");
 STATIC_ASSERT(sizeof(u16) == 2, "Expected u16 to be 2 bytes.");
 STATIC_ASSERT(sizeof(u32) == 4, "Expected u32 to be 4 bytes.");
