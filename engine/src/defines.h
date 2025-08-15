@@ -1,23 +1,35 @@
 #pragma once
 
 //Unsigned int variables
+//Unsigned char
 typedef unsigned char u8;
+//Unsigned short
 typedef unsigned short u16;
+//Unsigned int
 typedef unsigned int u32;
+//Unsigned long long
 typedef unsigned long long u64;
 
 //Signed int variables
+//Signed char
 typedef signed char i8;
+//Signed short
 typedef signed short i16;
+//Signed int
 typedef signed int i32;
+//Signed long long
 typedef signed long long i64;
 
 //Floating point variables
+//Float
 typedef float f32;
+//Double
 typedef double f64;
 
 //Boolean variables
+//Bool Int
 typedef int b32;
+//Bool char
 typedef char b8;
 
 //Properly define static assertions
