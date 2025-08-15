@@ -42,7 +42,7 @@ FAPI b8 event_register(u16 code, void* listener, PFN_on_event on_event);
  * @param on_event The callback function pointer to be unregistered
  * @returns True if the event is successfully unregistered; otherwise False.
  */
-FAPI b8 event_unregistered(u16 code, void* listener, PFN_on_event on_event)
+FAPI b8 event_unregistered(u16 code, void* listener, PFN_on_event on_event);
 
 /**
  * Fires an event to listeners of the given code. If an event handler returns True, the event is considered handled and is not passed to any more listeners.
@@ -102,5 +102,5 @@ typedef enum system_event_code
     * u16 height = data.data.u16[1]
     */
    EVENT_CODE_RESIZED = 0x08,
-   MAX_EVENT_CODE = 0xFF,
-}
+   MAX_EVENT_CODE = 0xFF
+} system_event_code;
