@@ -7,6 +7,8 @@ sudo dnf install libX11-devel -y
 sudo dnf install libxkbcommon-x11-devel -y
 sudo apt-get install libx11-dev -y
 sudo apt-get install libxkbcommon-x11-dev -y
+sudo pacman -S libx11 -y
+sudo pacman -S libxkbcommon-x11 -y
 
 echo "Building everything..."
 
