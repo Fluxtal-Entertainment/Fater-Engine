@@ -1,4 +1,4 @@
-# Fluxtal-S(uper)(e)X(treme)-3D(ivine)V(ulcan)-Engine
+# Fater Engine
 Based on Kohi Engine.
 
 Supported OS:
