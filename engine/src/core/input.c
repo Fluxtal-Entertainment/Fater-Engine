@@ -159,7 +159,7 @@ b8 input_is_button_up(buttons button)
     {
         return true;
     }
-    return state.mouse_current.buttons[buttony] == false;
+    return state.mouse_current.buttons[button] == false;
 }
 
 b8 input_was_button_down(buttons button)

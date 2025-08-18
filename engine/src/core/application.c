@@ -19,6 +19,10 @@ typedef struct application_state
 static b8 initialized = FALSE;
 static application_state app_state;
 
+//Event handlers
+b8 application_on_event(u16 code, void* sender, void* listener_inst, event_context context);
+b8 application_on_key(u16 code, void* sender, void* listener_inst, event_context context);
+
 b8 application_create(game* game_inst)
 {
     if(initialized)
@@ -43,6 +47,9 @@ b8 application_create(game* game_inst)
         ERROR("Event system failed during initialization. Application can't continue!!!");
         return false;
     }
+    event_register(EVENT_CODE_APPLICATION_QUIT, 0, application_on_event);
+    event_register(EVENT_CODE_KEY_PRESSED, 0, application_on_key);
+    event_register(EVENT_CODE_KEY_RELEASED, 0, application_on_key);
     if(!platform_startup(&app_state.platform, game_inst->app_config.name, game_inst->app_config.start_pos_x, game_inst->app_config.start_pos_y, game_inst->app_config.start_width, game_inst->app_config.start_height))
     {
         return FALSE;
@@ -87,8 +94,47 @@ b8 application_run()
        }
     }
     app_state.is_running = FALSE;
+    //Shutdowns event systems
+    event_unregister(EVENT_CODE_APPLICATION_QUIT, 0, application_on_event);
+    event_unregister(EVENT_CODE_KEY_PRESSED, 0, application_on_key);
+    event_unregister(EVENT_CODE_KEY_RELEASED, 0, application_on_key);
     event_shutdown();
     input_shutdown();
     platform_shutdown(&app_state.platform);
     return TRUE;
+}
+
+b8 application_on_event(u16 code, void* sender, void* listener_inst, event_context context)
+{
+    switch(code)
+    {
+        case EVENT_CODE_APPLICATION_QUIT:
+        {
+            INFO("Quit event code recieved!!! Shutting down...\n");
+            app_state.is_running = false;
+            return true;
+        }
+    }
+    return false;
+}
+
+b8 application_on_key(u16 code, void* sender, void* listener_inst, event_context context)
+{
+    if(code == EVENT_CODE_KEY_PRESSED)
+    {
+        u16 key_code = context.data.u16[0];
+        if(key_code == KEY_ESCAPE)
+        {
+            event_context data = {};
+            event_fire(EVENT_CODE_APPLICATION_QUIT, 0, data);
+            //Blocks other listeners from processing this
+            return true;
+        }
+        /*else
+        {
+            //NOTE: Line below only for testing
+            DEBUG("'%c' key pressed in window.", key_code);
+        }*/  
+    }
+    return false;
 }
