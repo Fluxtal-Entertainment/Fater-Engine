@@ -2,7 +2,7 @@
 #include "game_types.h"
 #include "logger.h"
 #include "platform/platform.h"
-#include "fmemory.h"
+#include "f_memory.h"
 #include "event.h"
 #include "input.h"
 
@@ -130,11 +130,11 @@ b8 application_on_key(u16 code, void* sender, void* listener_inst, event_context
             //Blocks other listeners from processing this
             return true;
         }
-        /*else
+        else
         {
             //NOTE: Line below only for testing
             DEBUG("'%c' key pressed in window.", key_code);
-        }*/  
+        } 
     }
     return false;
 }

@@ -1,7 +1,7 @@
 #include "game.h"
 #include <entry.h>
 //NOTE:To remove
-#include <core/fmemory.h>
+#include <core/f_memory.h>
 
 //Define the function to create a game
 b8 create_game(game* out_game)

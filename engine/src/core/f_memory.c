@@ -1,5 +1,6 @@
-#include "core/fmemory.h"
+#include "core/f_memory.h"
 #include "core/logger.h"
+#include "core/f_string.h"
 #include "platform/platform.h"
 #include <string.h> //NOTE: Will be replaced by custom string library in the future
 #include <stdio.h>
@@ -98,6 +99,6 @@ char* get_memory_usage_string()
         i32 length = snprintf(buffer + offset, 8000, " %s: %.2f%s\n", memory_tag_strings[i], amount, unit);
         offset += length;
     }
-    char* out_string = _strdup(buffer);
+    char* out_string = string_duplicate(buffer);
     return out_string;
 }
