@@ -1,7 +1,7 @@
 #include "platform.h"
 
 //Linux platform layer
-#if FPLATFORM_LINUX
+#if PLATFORM_LINUX
 
 #include "core/logger.h"
 #include <xcb/xcb.h>
