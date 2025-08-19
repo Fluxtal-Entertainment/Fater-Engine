@@ -123,6 +123,10 @@ b8 platform_pump_messages(platform_state* plat_state)
             case XCB_KEY_RELEASE:
             {
                 //Presses and releases of key
+                //Key press event: xcb_key_press_event_t is the same as xcb_key_release_event_t
+                xcb_key_press_event_t *kb_event = (xcb_key_press_event_t *)event;
+                b8 pressed = event->response_type == XCB_KEY_PRESS;
+                xcb_keycode_t code = kb_event->detail;
             }break;
             case XCB_BUTTON_PRESS:
             case XCB_BUTTON_RELEASE:
