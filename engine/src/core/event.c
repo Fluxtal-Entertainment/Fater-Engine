@@ -1,6 +1,6 @@
 #include "event.h"
 #include "f_memory.h"
-#include "containers/darray.h"
+#include "containers/dynamic_array.h"
 
 typedef struct registered_event
 {
