@@ -2,12 +2,6 @@
 #Build script for rebuilding everything
 set echo on
 
-echo "Installing Dependiences..."
-sudo dnf install libX11-devel -y
-sudo dnf install libxkbcommon-x11-devel -y
-sudo apt-get install libx11-dev -y
-sudo apt-get install libxkbcommon-x11-dev -y
-
 echo "Building everything..."
 
 pushd engine
