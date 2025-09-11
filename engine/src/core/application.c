@@ -6,6 +6,7 @@
 #include "event.h"
 #include "input.h"
 #include "core/clock.h"
+#include "renderer/renderer_frontend.h"
 
 typedef struct application_state
 {
@@ -35,33 +36,45 @@ b8 application_create(game* game_inst)
     app_state.game_inst = game_inst;
     //Initialize subsystems
     input_initialize();
-    //NOTE: Only for tests. This'll be removed later.
+    /*//NOTE: Only for tests. This'll be removed later.
     FATAL("A test message: %f", 3.14f);
     ERROR("A test message: %f", 3.14f);
     WARN("A test message: %f", 3.14f);
     INFO("A test message: %f", 3.14f);
     DEBUG("A test message: %f", 3.14f);
-    TRACE("A test message: %f", 3.14f);
+    TRACE("A test message: %f", 3.14f);*/
     app_state.is_running = TRUE;
     app_state.is_suspended = FALSE;
+
     if(!event_initialize())
     {
         ERROR("Event system failed during initialization. Application can't continue!!!");
         return false;
     }
+
     event_register(EVENT_CODE_APPLICATION_QUIT, 0, application_on_event);
     event_register(EVENT_CODE_KEY_PRESSED, 0, application_on_key);
     event_register(EVENT_CODE_KEY_RELEASED, 0, application_on_key);
+
     if(!platform_startup(&app_state.platform, game_inst->app_config.name, game_inst->app_config.start_pos_x, game_inst->app_config.start_pos_y, game_inst->app_config.start_width, game_inst->app_config.start_height))
     {
         return FALSE;
     }
+
+    //Renderer startup
+    if(!renderer_initialize(game_inst->app_config.name, &app_state.platform))
+    {
+        FATAL("Failed to initialize renderer. Aborting aplication!!!");
+        return false;
+    }
+
     //Game initialization
     if(!app_state.game_inst->initialize(app_state.game_inst))
     {
         FATAL("FAILED to initialize the game!!!");
         return FALSE;
     }
+
     app_state.game_inst->on_resize(app_state.game_inst, app_state.width, app_state.height);
     initialized = TRUE;
     return TRUE;
@@ -98,12 +111,19 @@ b8 application_run()
                 app_state.is_running = FALSE;
                 break;
             }
+
+            //Call the game's render routine
             if(!app_state.game_inst->render(app_state.game_inst, (f32)delta))
             {
                 FATAL("Game render failed!!! Shutting down.");
                 app_state.is_running = FALSE;
                 break;
             }
+
+            //TODO: Refactor packet creation
+            render_packet packet;
+            packet.delta_time = delta;
+            renderer_draw_frame(&packet);
 
             //Check how long the frame took and, if below
             f64 frame_end_time = platform_get_absolute_time();
@@ -131,13 +151,16 @@ b8 application_run()
        }
     }
     app_state.is_running = FALSE;
+
     //Shutdowns event systems
     event_unregister(EVENT_CODE_APPLICATION_QUIT, 0, application_on_event);
     event_unregister(EVENT_CODE_KEY_PRESSED, 0, application_on_key);
     event_unregister(EVENT_CODE_KEY_RELEASED, 0, application_on_key);
     event_shutdown();
     input_shutdown();
+    renderer_shutdown();
     platform_shutdown(&app_state.platform);
+
     return TRUE;
 }
 

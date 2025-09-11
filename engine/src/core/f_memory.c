@@ -10,7 +10,24 @@ struct memory_stats
     u64 total_allocated;
     u64 tagged_allocations[MEMORY_TAG_MAX_TAGS];
 };
-static const char* memory_tag_strings[MEMORY_TAG_MAX_TAGS] = {"UNKNOWN", "ARRAY", "DARRAY", "DICT", "RING_QUEUE", "BST", "STRING", "APPLICATION", "JOB", "TEXTURE", "MATERIAL_INSTANCE", "RENDERER", "GAME", "TRANSFORM", "ENTITY", "ENTITY_NODE" , "SCENE"};
+static const char* memory_tag_strings[MEMORY_TAG_MAX_TAGS] = {
+    "UNKNOWN            ", 
+    "ARRAY              ", 
+    "DARRAY             ", 
+    "DICT               ", 
+    "RING_QUEUE         ", 
+    "BST                ", 
+    "STRING             ", 
+    "APPLICATION        ", 
+    "JOB                ", 
+    "TEXTURE            ", 
+    "MATERIAL_INSTANCE  ", 
+    "RENDERER           ", 
+    "GAME               ", 
+    "TRANSFORM          ", 
+    "ENTITY             ", 
+    "ENTITY_NODE        ", 
+    "SCENE              "};
 static struct memory_stats mem_stats;
 
 void initialize_memory()
