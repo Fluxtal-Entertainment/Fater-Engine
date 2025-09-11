@@ -46,7 +46,7 @@ void event_shutdown()
     {
         if(state.registered[i].events != 0)
         {
-            darray_destroy(state.registered[i].events);
+            dynamic_array_destroy(state.registered[i].events);
             state.registered[i].events = 0;
         }
     }
@@ -60,9 +60,9 @@ b8 event_register(u16 code, void* listener, PFN_on_event on_event)
     }
     if(state.registered[code].events == 0)
     {
-        state.registered[code].events = darray_create(registered_event);
+        state.registered[code].events = dynamic_array_create(registered_event);
     }
-    u64 registered_count = darray_length(state.registered[code].events);
+    u64 registered_count = dynamic_array_length(state.registered[code].events);
     for(u64 i = 0; i < registered_count; i++)
     {
         if(state.registered[code].events[i].listener == listener)
@@ -75,7 +75,7 @@ b8 event_register(u16 code, void* listener, PFN_on_event on_event)
     registered_event event;
     event.listener = listener;
     event.callback = on_event;
-    darray_push(state.registered[code].events, event);
+    dynamic_array_push(state.registered[code].events, event);
     return true;
 }
 
@@ -91,7 +91,7 @@ b8 event_unregister(u16 code, void* listener, PFN_on_event on_event)
         //TODO:warn
         return false;
     }
-    u64 registered_count = darray_length(state.registered[code].events);
+    u64 registered_count = dynamic_array_length(state.registered[code].events);
     for(u64 i = 0; i < registered_count; i++)
     {
         registered_event e = state.registered[code].events[i];
@@ -99,7 +99,7 @@ b8 event_unregister(u16 code, void* listener, PFN_on_event on_event)
         {
             //Found one and remove it
             registered_event popped_event;
-            darray_pop_at(state.registered[code].events, i, &popped_event);
+            dynamic_array_pop_at(state.registered[code].events, i, &popped_event);
             return true;
         }
     }
@@ -119,7 +119,7 @@ b8 event_fire(u16 code, void* sender, event_context context)
         //TODO:warn
         return false;
     }
-    u64 registered_count = darray_length(state.registered[code].events);
+    u64 registered_count = dynamic_array_length(state.registered[code].events);
     for(u64 i = 0; i < registered_count; i++)
     {
         registered_event e = state.registered[code].events[i];

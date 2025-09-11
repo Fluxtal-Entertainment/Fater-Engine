@@ -16,21 +16,21 @@ void* _dynamic_array_create(u64 length, u64 stride)
 
 void _dynamic_array_destroy(void* array)
 {
-    u64* header = (u64*)array - Dynamic_ARRAY_FIELD_LENGTH;
-    u64 header_size = Dynamic_ARRAY_FIELD_LENGTH * sizeof(u64);
-    u64 total_size = header_size + header[Dynamic_ARRAY_CAPACITY] * header[Dynamic_ARRAY_STRIDE];
-    mem_free(header, total_size, MEMORY_TAG_Dynamic_ARRAY);
+    u64* header = (u64*)array - DYNAMIC_ARRAY_FIELD_LENGTH;
+    u64 header_size = DYNAMIC_ARRAY_FIELD_LENGTH * sizeof(u64);
+    u64 total_size = header_size + header[DYNAMIC_ARRAY_CAPACITY] * header[DYNAMIC_ARRAY_STRIDE];
+    mem_free(header, total_size, MEMORY_TAG_DYNAMIC_ARRAY);
 }
 
 u64 _dynamic_array_field_get(void* array, u64 field)
 {
-    u64* header = (u64*)array - Dynamic_ARRAY_FIELD_LENGTH;
+    u64* header = (u64*)array - DYNAMIC_ARRAY_FIELD_LENGTH;
     return header[field];
 }
 
 void _dynamic_array_field_set(void* array, u64 field, u64 value)
 {
-    u64* header = (u64*)array - Dynamic_ARRAY_FIELD_LENGTH;
+    u64* header = (u64*)array - DYNAMIC_ARRAY_FIELD_LENGTH;
     header[field] = value;
 }
 
@@ -38,9 +38,9 @@ void* _dynamic_array_resize(void* array)
 {
     u64 length = dynamic_array_length(array);
     u64 stride = dynamic_array_stride(array);
-    void* temp = _dynamic_array_create((Dynamic_ARRAY_RESIZE_FACTOR * dynamic_array_capacity(array)), stride);
+    void* temp = _dynamic_array_create((DYNAMIC_ARRAY_RESIZE_FACTOR * dynamic_array_capacity(array)), stride);
     mem_copy(temp, array, length * stride);
-    _dynamic_array_field_set(temp, Dynamic_ARRAY_LENGTH, length);
+    _dynamic_array_field_set(temp, DYNAMIC_ARRAY_LENGTH, length);
     _dynamic_array_destroy(array);
     return temp;
 }
@@ -56,7 +56,7 @@ void* _dynamic_array_push(void* array, const void* value_ptr)
     u64 address = (u64)array;
     address += (length * stride);
     mem_copy((void*)address, value_ptr, stride);
-    _dynamic_array_field_set(array, Dynamic_ARRAY_LENGTH, length + 1);
+    _dynamic_array_field_set(array, DYNAMIC_ARRAY_LENGTH, length + 1);
     return array;
 }
 
@@ -67,7 +67,7 @@ void _dynamic_array_pop(void* array, void* dest)
     u64 address = (u64)array;
     address += ((length - 1) * stride);
     mem_copy(dest, (void*)address, stride);
-    _dynamic_array_field_set(array, Dynamic_ARRAY_LENGTH, length -1);
+    _dynamic_array_field_set(array, DYNAMIC_ARRAY_LENGTH, length -1);
 }
 
 void* _dynamic_array_pop_at(void* array, u64 index, void* dest)
@@ -86,7 +86,7 @@ void* _dynamic_array_pop_at(void* array, u64 index, void* dest)
     {
         mem_copy((void*)(address + (index * stride)), (void*)(address + ((index + 1) * stride)), stride * (length - index));
     }
-    _dynamic_array_field_set(array, Dynamic_ARRAY_LENGTH, length - 1);
+    _dynamic_array_field_set(array, DYNAMIC_ARRAY_LENGTH, length - 1);
     return array;
 }
 
@@ -111,6 +111,6 @@ void* _dynamic_array_insert_at(void* array, u64 index, void* value_ptr)
     }
     //Sets the value at the index
     mem_copy((void*)(address + (index * stride)), value_ptr, stride);
-    _dynamic_array_field_set(array, Dynamic_ARRAY_LENGTH, length + 1);
+    _dynamic_array_field_set(array, DYNAMIC_ARRAY_LENGTH, length + 1);
     return array;
 }
