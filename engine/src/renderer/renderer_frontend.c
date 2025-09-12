@@ -16,7 +16,7 @@ b8 renderer_initialize(const char* application_name, struct platform_state* plat
 
     if(!backend->initialize(backend, application_name, plat_state))
     {
-        FATAL("Failed to initialize renderer backend. Shuting down!!!")
+        FATAL_LOG("Failed to initialize renderer backend. Shuting down!!!")
         return false;
     }
 
@@ -50,7 +50,7 @@ b8 renderer_draw_frame(render_packet* packet)
         b8 result = renderer_end_frame(packet->delta_time);
         if(!result)
         {
-            ERROR("renderer_end_frame() failed. Shuting down application...");
+            ERROR_LOG("renderer_end_frame() failed. Shuting down application...");
             return false;     
         }
     }

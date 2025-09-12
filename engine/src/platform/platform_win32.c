@@ -1,10 +1,11 @@
-#include "platform.h"
+#include "platform/platform.h"
 
 //Windows platform layer.
 #if PLATFORM_WINDOWS
 
 #include "core/logger.h"
 #include "core/input.h"
+#include "containers/dynamic_array.h"
 #include <windows.h>
 #include <windowsx.h> //param input extraction
 #include <stdlib.h>
@@ -79,7 +80,7 @@ b8 platform_startup(platform_state *plat_state, const char *application_name, i3
     if(handle == 0)
     {
         MessageBoxA(NULL, "Window Creation FAILED!", "ERROR!!!", MB_ICONEXCLAMATION | MB_OK);
-        FATAL("Window Creation FAILED!");
+        FATAL_LOG("Window Creation FAILED!");
         return FALSE;
     }
     else
@@ -182,6 +183,11 @@ f64 platform_get_absolute_time()
 void platform_sleep(u64 ms)
 {
     Sleep(ms);
+}
+
+void platform_get_required_extension_names(const char*** names_dynamic_array)
+{
+    dynamic_array_push(*names_dynamic_array, &"VK_KHR_win32_surface");
 }
 
 LRESULT CALLBACK win32_process_message(HWND hwnd, u32 msg, WPARAM w_param, LPARAM l_param)

@@ -31,7 +31,7 @@ void input_initialize()
 {
     mem_zero(&state, sizeof(input_state));
     initialized = true;
-    INFO("Input subsystem have been initialized");
+    INFO_LOG("Input subsystem have been initialized");
 }
 
 void input_shutdown()
@@ -84,7 +84,7 @@ void input_process_mouse_move(i16 x, i16 y)
     if(state.mouse_current.x != x || state.mouse_current.y != y)
     {
         //NOTE:Line below only for debug purpose
-        //DEBUG("Mouse pos: %i, %i", x, y);
+        //DEBUG_LOG("Mouse pos: %i, %i", x, y);
 
         //Updates internal state
         state.mouse_current.x = x;

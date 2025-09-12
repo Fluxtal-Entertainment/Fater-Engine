@@ -13,7 +13,7 @@ struct memory_stats
 static const char* memory_tag_strings[MEMORY_TAG_MAX_TAGS] = {
     "UNKNOWN            ", 
     "ARRAY              ", 
-    "DARRAY             ", 
+    "DYNAMIC_ARRAY      ", 
     "DICT               ", 
     "RING_QUEUE         ", 
     "BST                ", 
@@ -44,7 +44,7 @@ void* mem_allocate(u64 size, memory_tag mem_tag)
 {
     if(mem_tag == MEMORY_TAG_UNKNOWN)
     {
-        WARN("Unknown memory tag called mem_allocate(). Re-class this allocation.")
+        WARN_LOG("Unknown memory tag called mem_allocate(). Re-class this allocation.")
     }
     mem_stats.total_allocated += size;
     mem_stats.tagged_allocations[mem_tag] += size;
@@ -58,7 +58,7 @@ void mem_free(void* block, u64 size, memory_tag mem_tag)
 {
     if(mem_tag == MEMORY_TAG_UNKNOWN)
     {
-        WARN("Unknown memory tag called mem_free(). Re-class this allocation.")
+        WARN_LOG("Unknown memory tag called mem_free(). Re-class this allocation.")
     }
     mem_stats.total_allocated -= size;
     mem_stats.tagged_allocations[mem_tag] -= size;

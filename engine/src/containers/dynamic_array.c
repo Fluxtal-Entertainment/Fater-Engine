@@ -76,7 +76,7 @@ void* _dynamic_array_pop_at(void* array, u64 index, void* dest)
     u64 stride = dynamic_array_stride(array);
     if(index >= length)
     {
-        ERROR("Index out of bounds of this array!!! Length: %i, index: %index", length, index);
+        ERROR_LOG("Index out of bounds of this array!!! Length: %i, index: %index", length, index);
         return array;
     }
     u64 address = (u64)array;
@@ -96,7 +96,7 @@ void* _dynamic_array_insert_at(void* array, u64 index, void* value_ptr)
     u64 stride = dynamic_array_stride(array);
     if(index >= length)
     {
-        ERROR("Index out of bounds of this array!!! Length: %i, index: %index", length, index);
+        ERROR_LOG("Index out of bounds of this array!!! Length: %i, index: %index", length, index);
         return array;
     }
     if(length >= dynamic_array_capacity(array))

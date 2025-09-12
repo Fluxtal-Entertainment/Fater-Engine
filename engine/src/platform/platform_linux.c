@@ -6,6 +6,7 @@
 #include "core/logger.h"
 #include "core/event.h"
 #include "core/input.h"
+#include "containers/dynamic_array.h"
 #include <xcb/xcb.h>
 #include <X11/keysym.h>
 #include <X11/XKBlib.h> //NOTE:sudo apt-get install libx11-dev OR sudo dnf install libX11-devel (if not installed earlier)
@@ -256,6 +257,11 @@ void platform_sleep(u64 ms)
     }
     usleep((ms % 1000) * 1000);
 #endif
+}
+
+void platform_get_required_extension_names(const char*** names_dynamic_array)
+{
+    dynamic_array_push(*names_dynamic_array, &"VK_KHR_xcb_surface"); //NOTE:VK_KHR_xlib_surface
 }
 
 //Key translation

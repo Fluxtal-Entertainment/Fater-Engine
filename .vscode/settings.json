@@ -48,6 +48,7 @@
         "isWholeLine": false,
     },
     "files.associations": {
+        "*.embeddedhtml": "html",
         "test.h": "c",
         "vulkan.h": "c",
         "vulkan_core.h": "c",
@@ -57,7 +58,9 @@
         "windowsx.h": "c",
         "vulcan_platform.h": "c",
         "renderer_frontend.h": "c",
-        "system_error": "cpp"
+        "system_error": "cpp",
+        "logger.h": "c",
+        "input.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

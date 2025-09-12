@@ -30,7 +30,7 @@ b8 application_create(game* game_inst)
 {
     if(initialized)
     {
-        ERROR("[application_create()] called more than once!!!")
+        ERROR_LOG("[application_create()] called more than once!!!")
         return FALSE;
     }
     app_state.game_inst = game_inst;
@@ -48,7 +48,7 @@ b8 application_create(game* game_inst)
 
     if(!event_initialize())
     {
-        ERROR("Event system failed during initialization. Application can't continue!!!");
+        ERROR_LOG("Event system failed during initialization. Application can't continue!!!");
         return false;
     }
 
@@ -64,14 +64,14 @@ b8 application_create(game* game_inst)
     //Renderer startup
     if(!renderer_initialize(game_inst->app_config.name, &app_state.platform))
     {
-        FATAL("Failed to initialize renderer. Aborting aplication!!!");
+        FATAL_LOG("Failed to initialize renderer. Aborting aplication!!!");
         return false;
     }
 
     //Game initialization
     if(!app_state.game_inst->initialize(app_state.game_inst))
     {
-        FATAL("FAILED to initialize the game!!!");
+        FATAL_LOG("FAILED to initialize the game!!!");
         return FALSE;
     }
 
@@ -89,7 +89,7 @@ b8 application_run()
     u8 frame_count = 0;
     f64 target_frame_seconds = 1.0f/60;
 
-    INFO(get_memory_usage_string());
+    INFO_LOG(get_memory_usage_string());
 
     while(app_state.is_running)
     {
@@ -107,7 +107,7 @@ b8 application_run()
 
             if(!app_state.game_inst->update(app_state.game_inst, (f32)delta))
             {
-                FATAL("Game update failed!!! Shutting down.");
+                FATAL_LOG("Game update failed!!! Shutting down.");
                 app_state.is_running = FALSE;
                 break;
             }
@@ -115,7 +115,7 @@ b8 application_run()
             //Call the game's render routine
             if(!app_state.game_inst->render(app_state.game_inst, (f32)delta))
             {
-                FATAL("Game render failed!!! Shutting down.");
+                FATAL_LOG("Game render failed!!! Shutting down.");
                 app_state.is_running = FALSE;
                 break;
             }
@@ -170,7 +170,7 @@ b8 application_on_event(u16 code, void* sender, void* listener_inst, event_conte
     {
         case EVENT_CODE_APPLICATION_QUIT:
         {
-            INFO("Quit event code recieved!!! Shutting down...\n");
+            INFO_LOG("Quit event code recieved!!! Shutting down...\n");
             app_state.is_running = false;
             return true;
         }

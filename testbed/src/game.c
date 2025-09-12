@@ -3,7 +3,7 @@
 
 b8 game_initialize(game* game_inst)
 {
-    DEBUG("game_initialize() called");
+    DEBUG_LOG("game_initialize() called");
     return TRUE;
 }
 b8 game_update(game* game_inst, f32 delta_time)

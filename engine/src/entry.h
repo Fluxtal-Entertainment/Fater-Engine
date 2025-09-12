@@ -15,25 +15,25 @@ int main(void){
     game game_inst;
     if(!create_game(&game_inst))
     {
-        FATAL("Couldn't create game!!!");
+        FATAL_LOG("Couldn't create game!!!");
         return -1;
     }
     //Check if function pointers exist
     if(!game_inst.render || !game_inst.update || !game_inst.initialize || !game_inst.on_resize)
     {
-        FATAL("Game's function pointers must be assigned!!!")
+        FATAL_LOG("Game's function pointers must be assigned!!!")
         return -2;
     }
     //Initialization
     if(!application_create(&game_inst))
     {
-        INFO("Failed to create application");
+        INFO_LOG("Failed to create application");
         return 1;
     }
     //Begin the game loop
     if(!application_run())
     {
-        INFO("Application didn't shutdown gracefully");
+        INFO_LOG("Application didn't shutdown gracefully");
         return 2;
     }
     shutdown_memory();
