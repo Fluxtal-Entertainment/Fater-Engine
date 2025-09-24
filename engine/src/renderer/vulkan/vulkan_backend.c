@@ -5,6 +5,7 @@
 #include "core/f_string.h"
 #include "containers/dynamic_array.h"
 #include "platform/platform.h"
+#include "vulkan_device.h"
 
 //static Vulkan context
 static vulkan_context context;
@@ -110,6 +111,21 @@ b8 vulkan_renderer_backend_initialize(renderer_backend* backend, const char* app
     DEBUG_LOG("Vulkan debugger created.");
 #endif
 
+    //Vulkan surface creation
+    DEBUG_LOG("Creating Vulkan surface...")
+    if(!platform_create_vulkan_surface(plat_state, &context))
+    {
+        ERROR_LOG("Failed to create platform surface!!!");
+        return false;
+    }
+    DEBUG_LOG("Vulkan surface created.")
+
+    //Vulkan device creation
+    if(!vulkan_device_create(&context))
+    {
+        ERROR_LOG("Failed to create Vulkan device!!!");
+        return false;
+    }
     INFO_LOG("Vulkan renderer initialized succesfully.");
     return true;
 }
