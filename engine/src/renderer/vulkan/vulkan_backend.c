@@ -76,7 +76,7 @@ b8 vulkan_renderer_backend_initialize(renderer_backend* backend, const char* app
             if(string_equal(required_validation_layer_names[i], available_layers[j].layerName))
             {
                 found = true;
-                INFO_LOG("Layer found.");
+                INFO_LOG("Layer found");
                 break;
             }
         }
@@ -86,14 +86,14 @@ b8 vulkan_renderer_backend_initialize(renderer_backend* backend, const char* app
             return false;
         }
     }
-    INFO_LOG("All required validation layers are present.");
+    INFO_LOG("All required validation layers are present");
 #endif
 
     create_info.enabledLayerCount = required_validation_layer_count;
     create_info.ppEnabledLayerNames = required_validation_layer_names;
 
     VK_CHECK(vkCreateInstance(&create_info, context.allocator, &context.instance));
-    INFO_LOG("Vulkan Instance created.");
+    INFO_LOG("Vulkan Instance created");
 
 //Debugger
 #if defined(_DEBUG)
@@ -108,7 +108,7 @@ b8 vulkan_renderer_backend_initialize(renderer_backend* backend, const char* app
     PFN_vkCreateDebugUtilsMessengerEXT func = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(context.instance, "vkCreateDebugUtilsMessengerEXT");
     ASSERT_MSG(func, "Failed to create debug messenger!!!");
     VK_CHECK(func(context.instance, &debug_create_info, context.allocator, &context.debug_messanger));
-    DEBUG_LOG("Vulkan debugger created.");
+    DEBUG_LOG("Vulkan debugger created");
 #endif
 
     //Vulkan surface creation
@@ -118,7 +118,7 @@ b8 vulkan_renderer_backend_initialize(renderer_backend* backend, const char* app
         ERROR_LOG("Failed to create platform surface!!!");
         return false;
     }
-    DEBUG_LOG("Vulkan surface created.")
+    DEBUG_LOG("Vulkan surface created")
 
     //Vulkan device creation
     if(!vulkan_device_create(&context))
@@ -126,7 +126,7 @@ b8 vulkan_renderer_backend_initialize(renderer_backend* backend, const char* app
         ERROR_LOG("Failed to create Vulkan device!!!");
         return false;
     }
-    INFO_LOG("Vulkan renderer initialized succesfully.");
+    INFO_LOG("Vulkan renderer initialized succesfully");
     return true;
 }
 
