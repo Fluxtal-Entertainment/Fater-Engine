@@ -177,6 +177,32 @@ void vulkan_device_query_swapchain_support(VkPhysicalDevice physical_device, VkS
     }
 }
 
+b8 vulkan_device_detect_depth_format(vulkan_device* device)
+{
+    //Format candidates
+    const u64 candidate_count = 3;
+    VkFormat candidates[3] = {VK_FORMAT_D32_SFLOAT, VK_FORMAT_D32_SFLOAT_S8_UINT, VK_FORMAT_D24_UNORM_S8_UINT};
+
+    u32 flags = VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT;
+    for(u64 i = 0; i < candidate_count; ++i)
+    {
+        VkFormatProperties properties;
+        vkGetPhysicalDeviceFormatProperties(device->physical_device, candidates[i], &properties);
+
+        if((properties.linearTilingFeatures & flags) == flags)
+        {
+            device->depth_format = candidates[i];
+            return true;
+        }
+        else if((properties.optimalTilingFeatures & flags) == flags)
+        {
+            device->depth_format = candidates[i];
+            return true;
+        }
+    }
+    return false;
+}
+
 b8 select_physical_device(vulkan_context* context)
 {
     u32 physical_device_count = 0;
