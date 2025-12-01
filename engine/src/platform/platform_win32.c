@@ -5,6 +5,7 @@
 
 #include "core/logger.h"
 #include "core/input.h"
+#include "core/event.h"
 #include "containers/dynamic_array.h"
 #include <windows.h>
 #include <windowsx.h> //param input extraction
@@ -225,8 +226,9 @@ LRESULT CALLBACK win32_process_message(HWND hwnd, u32 msg, WPARAM w_param, LPARA
             return 1;
 
         case WM_CLOSE:
-            //TODO: Fire an event to quit the application
-            return 0;
+            event_context data = {};
+            event_fire(EVENT_CODE_APPLICATION_QUIT, 0, data);
+            return true;
 
         case WM_DESTROY:
             PostQuitMessage(0);

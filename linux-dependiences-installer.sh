@@ -1,17 +1,25 @@
-#!/bin/bash
-#Build script for rebuilding everything
 set echo on
 
 echo "Installing Dependiences..."
-sudo dnf update
-sudo dnf install libX11-devel -y
-sudo dnf install libxkbcommon-x11-devel -y
-sudo apt-get update
-sudo apt-get install libx11-dev -y
-sudo apt-get install libxkbcommon-x11-dev -y
-sudo pacman -S libX11
-sudo pacman -S libxkbcommon
+if command -v pacman ; then
+    echo "Installing pacman version..."
+    sudo pacman -S libX11 && sudo pacman -S libxkbcommon
+    sudo pacman -S vulkan-icd-loader vulkan-tools vulkan-extra-layers vulkan-validation-layers vulkan-headers
+    vkcube
+    echo "All Dependiences Installed Successfully."
+elif command -v apt ; then
+    echo "Installing apt version..."
+    sudo apt-get update -y && sudo apt-get install libx11-dev -y && sudo apt-get install libxkbcommon-x11-dev -y
+    sudo apt install vulkan-tools vulkan-validationlayers-dev libvulkan-dev
+    vkcube
+    echo "All Dependiences Installed Successfully."
+elif command -v dnf ; then
+    echo "Installing dnf version..."
+    sudo dnf update -y && sudo dnf install libX11-devel -y && sudo dnf install libxkbcommon-x11-devel -y
+    sudo dnf install vulkan vulkan-tools vulkan-loader vulkan-validation-layers vulkan-headers
+    vkcube
+    echo "All Dependiences Installed Successfully."
+else
+    echo "Couldn't find known package manager..."
+fi
 
-echo "All Dependiences Installed Successfully."
-echo "Please bear in mind that this automated installer didn't download vulkan sdk."
-echo "You need to do it manually."
