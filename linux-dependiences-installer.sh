@@ -4,7 +4,7 @@ echo "Installing Dependiences..."
 if command -v pacman ; then
     echo "Installing pacman version..."
     sudo pacman -S libX11 && sudo pacman -S libxkbcommon
-    sudo pacman -S vulkan-icd-loader vulkan-tools vulkan-extra-layers vulkan-validation-layers vulkan-headers
+    sudo pacman -S vulkan-icd-loader vulkan-tools vulkan-extra-layers vulkan-validation-layers vulkan-headers clang
     vkcube
     echo "All Dependiences Installed Successfully."
 elif command -v apt ; then
