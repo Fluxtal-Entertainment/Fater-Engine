@@ -6,6 +6,7 @@
 #include "vulkan_renderpass.h"
 #include "vulkan_command_buffer.h"
 #include "vulkan_framebuffer.h"
+#include "vulkan_fence.h"
 
 #include "core/logger.h"
 #include "core/f_string.h"
@@ -181,13 +182,50 @@ b8 vulkan_renderer_backend_initialize(renderer_backend* backend, const char* app
         vulkan_fence_create(&context, true, &context.in_flight_fences[i]);
     }
 
+    /**
+     * In flight fences shouldn't yet exist at this point, so clear the list
+     * These are stored in pointers because the initial state should be 0, and will stay 0 when not in use
+     * Actual fences aren't owned by this list
+     */
+    context.images_in_flight = dynamic_array_reserve(vulkan_fence, context.swapchain.image_count);
+    for(u32 i = 0; i < context.swapchain.image_count; ++i)
+    {
+        context.images_in_flight[i] = 0;
+    }
+
     INFO_LOG("Vulkan renderer initialized succesfully");
     return true;
 }
 
 void vulkan_renderer_backend_shutdown(renderer_backend* backend)
 {
+    vkDeviceWaitIdle(context.device.logical_device);
     //Destroy in the opposite order of creation
+
+    //Sync objects
+    for(u8 i = 0; i < context.swapchain.max_frames_in_flight; ++i)
+    {
+        if(context.image_available_semaphores[i])
+        {
+            vkDestroySemaphore(context.device.logical_device, context.image_available_semaphores[i], context.allocator);
+            context.image_available_semaphores[i] = 0;
+        }
+        if(context.queue_complete_semaphores[i])
+        {
+            vkDestroySemaphore(context.device.logical_device, context.queue_complete_semaphores[i], context.allocator);
+            context.queue_complete_semaphores[i] = 0;
+        }
+        vulkan_fence_destroy(&context, &context.in_flight_fences[i]);
+    }
+
+    dynamic_array_destroy(context.image_available_semaphores);
+    context.image_available_semaphores = 0;
+    dynamic_array_destroy(context.queue_complete_semaphores);
+    context.queue_complete_semaphores = 0;
+    dynamic_array_destroy(context.in_flight_fences);
+    context.in_flight_fences = 0;
+    dynamic_array_destroy(context.images_in_flight);
+    context.images_in_flight = 0;
 
     //Command buffers
     for(u32 i = 0; i < context.swapchain.image_count; ++i)
