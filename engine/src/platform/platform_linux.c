@@ -27,7 +27,7 @@
 //For surface creation only
 #define VK_USE_PLATFORM_XCB_KHR
 #include <vulkan/vulkan.h>
-#include "renderer/vulkan/vulkan_types.inl"
+#include "renderer/vulkan/vk_types.inl"
 
 typedef struct internal_state
 {

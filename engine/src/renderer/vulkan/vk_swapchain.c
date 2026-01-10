@@ -1,8 +1,8 @@
-#include "vulkan_swapchain.h"
+#include "vk_swapchain.h"
 #include "core/logger.h"
 #include "core/f_memory.h"
-#include "vulkan_device.h"
-#include "vulkan_image.h"
+#include "vk_device.h"
+#include "vk_image.h"
 
 void create(vulkan_context* context, u32 width, u32 height, vulkan_swapchain* swapchain);
 void destroy(vulkan_context* context, vulkan_swapchain* swapchain);

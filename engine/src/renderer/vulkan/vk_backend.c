@@ -1,12 +1,12 @@
-#include "vulkan_backend.h"
-#include "vulkan_types.inl"
-#include "vulkan_platform.h"
-#include "vulkan_device.h"
-#include "vulkan_swapchain.h"
-#include "vulkan_renderpass.h"
-#include "vulkan_command_buffer.h"
-#include "vulkan_framebuffer.h"
-#include "vulkan_fence.h"
+#include "vk_backend.h"
+#include "vk_types.inl"
+#include "vk_platform.h"
+#include "vk_device.h"
+#include "vk_swapchain.h"
+#include "vk_renderpass.h"
+#include "vk_command_buffer.h"
+#include "vk_framebuffer.h"
+#include "vk_fence.h"
 
 #include "core/logger.h"
 #include "core/f_string.h"
@@ -392,8 +392,34 @@ b8 vulkan_renderer_backend_end_frame(renderer_backend* backend, f32 delta_time)
      * Begin queue submission
      */
     VkSubmitInfo submit_info = {VK_STRUCTURE_TYPE_SUBMIT_INFO};
-    
+    //Command buffers to be executed
+    submit_info.commandBufferCount = 1;
+    submit_info.pCommandBuffers = &command_buffer->handle;
+    //The semaphores to be signaled when the queue is complete
+    submit_info.signalSemaphoreCount = 1;
+    submit_info.pSignalSemaphores = &context.queue_complete_semaphores[context.current_frame];
+    //Wait semaphore ensures that the operation cannot begin until the image is available
+    submit_info.waitSemaphoreCount = 1;
+    submit_info.pWaitSemaphores = &context.image_available_semaphores[context.current_frame];
+    /**
+     * Each semaphore waits on the corresponding pipeline stage to complete. 1:1 ratio
+     * VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT prevents subsequent color attachment
+     * writes from executing until the semaphore signals
+     */
+    VkPipelineStageFlags flags[1] = {VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT};
+    submit_info.pWaitDstStageMask = flags;
 
+    VkResult result = vkQueueSubmit(context.device.graphics_queue, 1, &submit_info, context.in_flight_fences[context.current_frame].handle);
+    if(result != VK_SUCCESS)
+    {
+        ERROR_LOG("vkQueueSubmit failed with result: %s", vulkan_result_string(result, true));
+    }
+    vulkan_command_buffer_update_submitted(command_buffer);
+    //End queue submission
+
+    //Give image back to the swapchain
+    vulkan_swapchain_present(&context, &context.swapchain, context.device.graphics_queue, context.device.present_queue, context.queue_complete_semaphores[context.current_frame], context.image_index);
+    
     return true;
 }
 
