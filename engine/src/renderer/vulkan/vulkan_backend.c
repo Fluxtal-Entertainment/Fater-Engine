@@ -274,16 +274,126 @@ void vulkan_renderer_backend_shutdown(renderer_backend* backend)
 
 void vulkan_rederer_backend_on_resized(renderer_backend* backend, u16 width, u16 height)
 {
-
+    //update the framebuffer size generation, a counter which indicates when the framebuffer size has been updated
+    cached_framebuffer_width = width;
+    cached_framebuffer_height = height;
+    context.framebuffer_size_generation++;
+    INFO_LOG("Vulkan renderer backend -> resized: w/h/gen: %i%i%llu", width, height, context.framebuffer_size_generation);
 }
 
 b8 vulkan_renderer_backend_begin_frame(renderer_backend* backend, f32 delta_time)
 {
+    vulkan_device* device = &context.device;
+
+    //If recreating swap chain
+    if(context.recreating_swapchain)
+    {
+        VkResult result = vkDeviceWaitIdle(device->logical_device);
+        if(!vulkan_result_is_success(result))
+        {
+            ERROR_LOG("vulkan_renderer_backend_begin_frame vkDeviceWaitIdle (1) failed: '%s'", vulkan_result_string(result, true));
+            return false;
+        }
+        INFO_LOG("Recreating swapchain");
+        return false;
+    }
+
+    //IF the framebuffer has been resized. If true, a new swapchain must be created
+    if(context.framebuffer_size_generation != context.framebuffer_size_last_generation)
+    {
+        VkResult result = vkDeviceWaitIdle(device->logical_device);
+        if(!vulkan_result_is_success(result))
+        {
+            ERROR_LOG("vulkan_renderer_backend_begin_frame vkDeviceWaitIdle (2) failed: '%s'", vulkan_result_string(result, true));
+            return false;
+        }
+
+        //If swapchain recreation failed, boot out before unsetting the flag
+        if(!recreate_swapchain(backend))
+        {
+            return false;
+        }
+
+        INFO_LOG("Resized, booting")
+        return false;
+    }
+
+    //Wait for the execution of the current frame to complete
+    if(!vulkan_fence_wait(&context, &context.in_flight_fences[context.current_frame], UINT64_MAX))
+    {
+        WARN_LOG("In-flight fence wait failure!");
+        return false;
+    }
+
+    /**
+     * Acquire the next image from the swapchain.
+     * Pass along the semaphore that should indicate when this completes
+     * This same semaphore will later be waited on by the queue submission to ensure this image is available
+     */
+    if(!vulkan_swapchain_aquire_next_image_index(&context, &context.swapchain, UINT64_MAX, context.image_available_semaphores[context.current_frame], 0, &context.image_index))
+    {
+        return false;
+    }
+
+    //Begin recording commands
+    vulkan_command_buffer* command_buffer = &context.graphics_command_buffers[context.image_index];
+    vulkan_command_buffer_reset(command_buffer);
+    vulkan_command_buffer_begin(command_buffer, false, false, false);
+
+    //Dynamic state
+    VkViewport viewport;
+    viewport.x = 0.0f;
+    viewport.y = (f32)context.framebuffer_height;
+    viewport.width = (f32)context.framebuffer_width;
+    viewport.height = -(f32)context.framebuffer_height;
+    viewport.minDepth = 0.0f;
+    viewport.maxDepth = 1.0f;
+
+    //Scissor
+    VkRect2D scissor;
+    scissor.offset.x = scissor.offset.y = 0;
+    scissor.extent.width = context.framebuffer_width;
+    scissor.extent.height = context.framebuffer_height;
+
+    vkCmdSetViewport(command_buffer->handle, 0, 1, &viewport);
+    vkCmdSetScissor(command_buffer->handle, 0, 1, &scissor);
+
+    context.main_renderpass.w = context.framebuffer_width;
+    context.main_renderpass.h = context.framebuffer_height;
+
+    //Begin the renderpass
+    vulkan_renderpass_begin(command_buffer, &context.main_renderpass, context.swapchain.framebuffers[context.image_index].handle);
+
     return true;
 }
 
 b8 vulkan_renderer_backend_end_frame(renderer_backend* backend, f32 delta_time)
 {
+    vulkan_command_buffer* command_buffer = &context.graphics_command_buffers[context.image_index];
+    
+    //End renderpass
+    vulkan_renderpass_end(command_buffer, &context.main_renderpass);
+    vulkan_command_buffer_end(command_buffer);
+
+    //Make sure the previous frame is not using this image
+    if(context.images_in_flight[context.image_index] != VK_NULL_HANDLE)
+    {
+        vulkan_fence_wait(&context, context.images_in_flight[context.image_index], UINT64_MAX);
+    }
+
+    //Mark image fence as in-use by this frame
+    context.images_in_flight[context.image_index] = &context.in_flight_fences[context.current_frame];
+
+    //Reset the fence for use on the next frame
+    vulkan_fence_reset(&context, &context.in_flight_fences[context.current_frame]);
+
+    /**
+     * Submit the queue and wait for the operation to complete
+     * Begin queue submission
+     */
+    VkSubmitInfo submit_info = {VK_STRUCTURE_TYPE_SUBMIT_INFO};
+    
+
     return true;
 }
 
