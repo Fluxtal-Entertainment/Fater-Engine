@@ -113,21 +113,14 @@ typedef struct vulkan_fence
 
 typedef struct vulkan_context
 {
-    //Current framebuffer's width
     u32 framebuffer_width;
-    //Current framebuffer's height
     u32 framebuffer_height;
-    //Current generation of framebuffer size. If it does not match framebuffer_size_last_generation a new one should be generated
-    u64 framebuffer_size_generation;
-    //The generation of the framebuffer when it was last created. Set to framebuffer_size_generation when updated
-    u64 framebuffer_size_last_generation;
-
     VkInstance instance;
     VkAllocationCallbacks* allocator;
     VkSurfaceKHR surface;
     
 #if defined(_DEBUG)
-    VkDebugUtilsMessengerEXT debug_messenger;
+    VkDebugUtilsMessengerEXT debug_messanger;
 #endif
 
     vulkan_device device;

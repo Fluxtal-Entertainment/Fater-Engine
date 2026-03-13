@@ -14,7 +14,7 @@
 //Only for surface creation
 #include <vulkan/vulkan.h>
 #include <vulkan/vulkan_win32.h>
-#include "renderer/vulkan/vk_types.inl"
+#include "renderer/vulkan/vulkan_types.inl"
 
 typedef struct internal_state
 {
