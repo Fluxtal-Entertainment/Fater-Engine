@@ -12,7 +12,7 @@ const char* vulkan_result_string(VkResult result, b8 get_extended);
 
 /**
  * Indicates if the passed result is a success or an error as defined by the Vulkan spec.
- * @returns True if success; otherwise false
+ * @returns True if success; otherwise false.
  * Defaults to true for unknown result type
  */
 b8 vulkan_result_is_success(VkResult result);
