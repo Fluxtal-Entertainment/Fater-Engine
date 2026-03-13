@@ -119,7 +119,7 @@ typedef struct vulkan_context
     u32 framebuffer_height;
     //Current generation of framebuffer size. If it does not match framebuffer_size_last_generation a new one should be generated
     u64 framebuffer_size_generation;
-    //The generation of the framebuffer when it was last created. Set to ftamebuffer_size_generation when updated
+    //The generation of the framebuffer when it was last created. Set to framebuffer_size_generation when updated
     u64 framebuffer_size_last_generation;
 
     VkInstance instance;
@@ -127,7 +127,7 @@ typedef struct vulkan_context
     VkSurfaceKHR surface;
     
 #if defined(_DEBUG)
-    VkDebugUtilsMessengerEXT debug_messanger;
+    VkDebugUtilsMessengerEXT debug_messenger;
 #endif
 
     vulkan_device device;
