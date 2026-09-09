@@ -1,5 +1,5 @@
-#include "vk_image.h"
-#include "vk_device.h"
+#include "vulkan_image.h"
+#include "vulkan_device.h"
 #include "core/f_memory.h"
 #include "core/logger.h"
 

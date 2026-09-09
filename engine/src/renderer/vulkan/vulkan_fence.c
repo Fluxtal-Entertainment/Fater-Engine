@@ -1,4 +1,4 @@
-#include "vk_fence.h"
+#include "vulkan_fence.h"
 #include "core/logger.h"
 
 void vulkan_fence_create(vulkan_context* context, b8 create_signaled, vulkan_fence* out_fence)

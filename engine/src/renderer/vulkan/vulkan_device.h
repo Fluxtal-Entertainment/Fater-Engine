@@ -1,5 +1,5 @@
 #pragma once
-#include "vk_types.inl"
+#include "vulkan_types.inl"
 
 b8 vulkan_device_create(vulkan_context* context);
 
