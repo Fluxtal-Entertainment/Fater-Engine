@@ -43,14 +43,14 @@ b8 renderer_end_frame(f32 delta_time)
 
 b8 renderer_draw_frame(render_packet* packet)
 {
-    //If the bagin frame returned true, mid-frame operations may continue
+    //If the begin frame returned true, mid-frame operations may continue
     if(renderer_begin_frame(packet->delta_time))
     {
         //End the frame. If this fails it is likely unrecoverable
         b8 result = renderer_end_frame(packet->delta_time);
         if(!result)
         {
-            ERROR_LOG("renderer_end_frame() failed. Shuting down application...");
+            ERROR_LOG("renderer_end_frame() failed. Shutting down application...");
             return false;     
         }
     }

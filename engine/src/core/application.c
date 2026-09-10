@@ -146,7 +146,7 @@ b8 application_run()
             //NOTE: Input update or state copying should always be handled after any input should be recorded; I.E. before this line.
             //As a safety, input is the last thing to be updated before this frame ends
             input_update(delta);
-            //Update last lime
+            //Update last time
             app_state.last_time = current_time;
        }
     }

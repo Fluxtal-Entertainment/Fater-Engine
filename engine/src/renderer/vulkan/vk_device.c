@@ -445,12 +445,12 @@ b8 physical_device_meets_requirements(VkPhysicalDevice device, VkSurfaceKHR surf
                     if(!found)
                     {
                         INFO_LOG("Required extension not found: '%s', skipping device...", requirements->device_extension_names[i]);
-                        mem_free(avaliable_extensions, sizeof(VkExtensionProperties) * avaliable_extension_count, MEMORY_TAG_RENDERER);
+                        mem_free(available_extensions, sizeof(VkExtensionProperties) * available_extension_count, MEMORY_TAG_RENDERER);
                         return false;
                     }
                 }
             }
-            mem_free(avaliable_extensions, sizeof(VkExtensionProperties) * avaliable_extension_count, MEMORY_TAG_RENDERER);
+            mem_free(available_extensions, sizeof(VkExtensionProperties) * available_extension_count, MEMORY_TAG_RENDERER);
         }
 
         //Sampler anisotropy
