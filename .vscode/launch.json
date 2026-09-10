@@ -4,6 +4,17 @@
     //For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+        
+        {
+            "name": "(Linux) Launch",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/testbed",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/bin/",
+            "environment": [],
+        },
         {
             "name": "(Windows) Launch",
             "type": "cppvsdbg",
@@ -14,16 +25,6 @@
             "cwd": "${workspaceFolder}/bin/",
             "environment": [],
             "console": "newExternalWindow" 
-        },
-        {
-            "name": "(Linux) Launch",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "${workspaceFolder}/bin/testbed",
-            "args": [],
-            "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/bin/",
-            "environment": [],
         }
     ]
 }

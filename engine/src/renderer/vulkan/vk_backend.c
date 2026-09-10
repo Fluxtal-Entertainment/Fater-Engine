@@ -280,7 +280,7 @@ void vulkan_renderer_backend_on_resized(renderer_backend* backend, u16 width, u1
     cached_framebuffer_width = width;
     cached_framebuffer_height = height;
     context.framebuffer_size_generation++;
-    INFO_LOG("Vulkan renderer backend -> resized: w/h/gen: %i%i%llu", width, height, context.framebuffer_size_generation);
+    INFO_LOG("Vulkan renderer backend -> resized: w/h/gen: %i/%i/%llu", width, height, context.framebuffer_size_generation);
 }
 
 b8 vulkan_renderer_backend_begin_frame(renderer_backend* backend, f32 delta_time)
@@ -415,6 +415,7 @@ b8 vulkan_renderer_backend_end_frame(renderer_backend* backend, f32 delta_time)
     if(result != VK_SUCCESS)
     {
         ERROR_LOG("vkQueueSubmit failed with result: %s", vulkan_result_string(result, true));
+        return false;
     }
     vulkan_command_buffer_update_submitted(command_buffer);
     //End queue submission
