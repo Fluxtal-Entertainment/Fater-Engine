@@ -52,7 +52,7 @@ b8 platform_startup(platform_state* plat_state, const char* application_name, i3
     state -> display = XOpenDisplay(NULL);
     //Turn off key repeats
     XAutoRepeatOff(state -> display);
-    //Retrive the connection from the display
+    //Retrieve the connection from the display
     state -> connection = XGetXCBConnection(state -> display);
     if(xcb_connection_has_error(state -> connection))
     {

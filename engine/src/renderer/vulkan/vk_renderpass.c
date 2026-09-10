@@ -8,6 +8,14 @@ void vulkan_renderpass_create(vulkan_context* context, vulkan_renderpass* out_re
     out_renderpass->w = w;
     out_renderpass->h = h;
 
+    out_renderpass->r = r;
+    out_renderpass->g = g;
+    out_renderpass->b = b;
+    out_renderpass->a = a;
+
+    out_renderpass->depth = depth;
+    out_renderpass->stencil = stencil;
+
     //Main subpass
     VkSubpassDescription subpass = {};
     subpass.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
@@ -68,7 +76,7 @@ void vulkan_renderpass_create(vulkan_context* context, vulkan_renderpass* out_re
     subpass.preserveAttachmentCount = 0;
     subpass.pPreserveAttachments = 0;
 
-    //Render pass dependiencies TODO:Make configurable
+    //Render pass dependencies TODO: Make configurable
     VkSubpassDependency dependency;
     dependency.srcSubpass = VK_SUBPASS_EXTERNAL;
     dependency.dstSubpass = 0;

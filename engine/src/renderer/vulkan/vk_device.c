@@ -421,21 +421,21 @@ b8 physical_device_meets_requirements(VkPhysicalDevice device, VkSurfaceKHR surf
         //Device extensions
         if(requirements->device_extension_names)
         {
-            u32 avaliable_extension_count = 0;
-            VkExtensionProperties* avaliable_extensions = 0;
-            VK_CHECK(vkEnumerateDeviceExtensionProperties(device, 0, &avaliable_extension_count, 0));
-            if(avaliable_extension_count != 0)
+            u32 available_extension_count = 0;
+            VkExtensionProperties* available_extensions = 0;
+            VK_CHECK(vkEnumerateDeviceExtensionProperties(device, 0, &available_extension_count, 0));
+            if(available_extension_count != 0)
             {
-                avaliable_extensions = mem_allocate(sizeof(VkExtensionProperties) * avaliable_extension_count, MEMORY_TAG_RENDERER);
-                VK_CHECK(vkEnumerateDeviceExtensionProperties(device, 0, &avaliable_extension_count, avaliable_extensions));
+                available_extensions = mem_allocate(sizeof(VkExtensionProperties) * available_extension_count, MEMORY_TAG_RENDERER);
+                VK_CHECK(vkEnumerateDeviceExtensionProperties(device, 0, &available_extension_count, available_extensions));
 
                 u32 required_extension_count = dynamic_array_length(requirements->device_extension_names);
                 for(u32 i = 0; i < required_extension_count; ++i)
                 {
                     b8 found = false;
-                    for(u32 j = 0; j < avaliable_extension_count; ++j)
+                    for(u32 j = 0; j < available_extension_count; ++j)
                     {
-                        if(string_equal(requirements->device_extension_names[i], avaliable_extensions[j].extensionName))
+                        if(string_equal(requirements->device_extension_names[i], available_extensions[j].extensionName))
                         {
                             found = true;
                             break;

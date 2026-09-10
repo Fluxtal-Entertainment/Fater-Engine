@@ -64,7 +64,7 @@ b8 application_create(game* game_inst)
     //Renderer startup
     if(!renderer_initialize(game_inst->app_config.name, &app_state.platform))
     {
-        FATAL_LOG("Failed to initialize renderer. Aborting aplication!!!");
+        FATAL_LOG("Failed to initialize renderer. Aborting application!!!");
         return false;
     }
 
@@ -176,7 +176,7 @@ b8 application_on_event(u16 code, void* sender, void* listener_inst, event_conte
     {
         case EVENT_CODE_APPLICATION_QUIT:
         {
-            INFO_LOG("Quit event code recieved!!! Shutting down...\n");
+            INFO_LOG("Quit event code received!!! Shutting down...\n");
             app_state.is_running = false;
             return true;
         }

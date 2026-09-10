@@ -178,7 +178,7 @@ b8 vulkan_renderer_backend_initialize(renderer_backend* backend, const char* app
 
         /**
          * Create the fence in a signaled state, indicating that the first frame has already been "rendered"
-         * This will prevent the application from waiting indefinetly for the first frame to render since it
+         * This will prevent the application from waiting indefinitely for the first frame to render since it
          * cannot be rendered until a frame is "rendered" before it
          */
         vulkan_fence_create(&context, true, &context.in_flight_fences[i]);
@@ -195,7 +195,7 @@ b8 vulkan_renderer_backend_initialize(renderer_backend* backend, const char* app
         context.images_in_flight[i] = 0;
     }
 
-    INFO_LOG("Vulkan renderer initialized succesfully");
+    INFO_LOG("Vulkan renderer initialized successfully");
     return true;
 }
 
