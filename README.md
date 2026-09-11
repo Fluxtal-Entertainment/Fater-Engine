@@ -2,8 +2,15 @@
 Based on Kohi Engine.
 
 Supported OS:
-Windows 10 & 11
-Linux Debian, Fedora & Linexin (or simmilar)
+Windows 10 & 11 (not tested)
+Linux Debian, Fedora & Arch (or simmilar)
 
-Best works on Linexin or Windows but consider installing linexin cause it's free and not poppulated with all of this junk that is shipped with windows.
-Here you have link to download it: https://github.com/Petexy/Linexin
+## Requirements
+### Linux
+ - Vulkan SDK (Downloaded from here as other might not work https://vulkan.lunarg.com/sdk/home).
+ - I'm writing it in VS Code, you can also use other types of IDE.
+ - Recommended extensions for VS Code are written in extensions.json file.
+ - The install_dependencies.sh script should install all other remaining dependencies required for compilation and development (Currently supports only apt, dnf and pacman).
+
+### Windows
+TODO
